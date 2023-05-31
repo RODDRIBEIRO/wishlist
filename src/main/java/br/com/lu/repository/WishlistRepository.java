@@ -9,8 +9,8 @@ import br.com.lu.model.Wishlist;
 public interface WishlistRepository extends MongoRepository<Wishlist, String> {
 
 	Optional<Wishlist> findById(String id);
-	
+
 	Optional<Wishlist> findByClienteId(String id);
-	
+
 	boolean existsByClienteId(String id);
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.com.lu.dto.PostWishlistDTO;
 import br.com.lu.dto.ProdutoDTO;
 import br.com.lu.dto.WishlistDTO;
+import br.com.lu.model.Produto;
 import br.com.lu.model.Wishlist;
 import br.com.lu.repository.ClienteRepository;
 import br.com.lu.repository.ProdutoRepository;
@@ -28,7 +29,7 @@ public class WishlistService {
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -47,27 +48,29 @@ public class WishlistService {
 	public WishlistDTO beforeSave(PostWishlistDTO postWishlistDTO) {
 		List<ProdutoDTO> produtoDTOs = new ArrayList<>();
 		WishlistDTO wishlistDTO = new WishlistDTO();
-		
+
 		// validação verifica se o Produto que será adicionado existe na base de dados
 		if (!produtoRepository.existsById(postWishlistDTO.getProduto().getId())) {
 			throw new WishlistValidationException("Produto não cadastrado");
 		}
-		
+
 		// validação verifica se o Cliente que será adicionado existe na base de dados
 		if (!clienteRepository.existsById(postWishlistDTO.getCliente().getId())) {
 			throw new WishlistValidationException("Cliente não cadastrado");
 		}
-		
+
 		if (this.wishlistRepository.existsByClienteId(postWishlistDTO.getCliente().getId())) {
-			wishlistDTO = this.toWishlistDTO(this.wishlistRepository.findByClienteId(postWishlistDTO.getCliente().getId()).get());
-			
-			
-			// validação verifica se o Produto que será adicionadoexiste na lista, caso exista, dispara exceção.
+			wishlistDTO = this
+					.toWishlistDTO(this.wishlistRepository.findByClienteId(postWishlistDTO.getCliente().getId()).get());
+
+			// validação verifica se o Produto que será adicionado existe na lista, caso
+			// exista, dispara exceção.
 			if (wishlistDTO.getProdutos().stream()
-					.anyMatch(wishlist -> wishlist.getGtin().equals(postWishlistDTO.getProduto().getGtin()))) {
-				throw new WishlistValidationException("Produto ja existe na Wishlist e não pode ser adicionado novamente");
+					.anyMatch(produto -> produto.getGtin().equals(postWishlistDTO.getProduto().getGtin()))) {
+				throw new WishlistValidationException(
+						"Produto ja existe na Wishlist e não pode ser adicionado novamente");
 			}
-			
+
 			// validação verifica tamanho da lista se maior que 20 dispara exceção
 			if (wishlistDTO.getProdutos().size() < 20) {
 				produtoDTOs.addAll(wishlistDTO.getProdutos());
@@ -82,12 +85,21 @@ public class WishlistService {
 			produtoDTOs.add(postWishlistDTO.getProduto());
 			wishlistDTO.setProdutos(produtoDTOs);
 		}
-		
+
 		return wishlistDTO;
 	}
 
-	public void remove(String id) {
-		wishlistRepository.deleteById(id);
+	public void removeProduto(String wishlistId, String produtoId) {
+		Wishlist wishlist = wishlistRepository.findById(wishlistId).orElse(null);
+
+		if (wishlist != null) {
+			List<Produto> produtos = wishlist.getProdutos();
+			produtos.removeIf(produto -> produto.getId().equals(produtoId));
+
+			wishlistRepository.save(wishlist);
+		} else {
+			throw new WishlistValidationException("Registro não encontrado");
+		}
 	}
 
 	private WishlistDTO toWishlistDTO(Wishlist wishlist) {

@@ -40,9 +40,14 @@ public class WishlistController {
 		}
 	}
 
-	@DeleteMapping("/{id}")
-	public void deleteWishlist(@PathVariable String id) {
-		wishlistService.remove(id);
+	@DeleteMapping("/{wishlistId}/produto/{produtoId}")
+	public ResponseEntity<String> deleteWishlist(@PathVariable String wishlistId, @PathVariable String produtoId) {
+		try {
+			wishlistService.removeProduto(wishlistId, produtoId);
+			return ResponseEntity.ok("Produto removido da Wishlist com Sucesso");
+		} catch (WishlistValidationException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 
 }
