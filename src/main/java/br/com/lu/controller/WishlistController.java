@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lu.dto.PostWishlistDTO;
 import br.com.lu.dto.WishlistDTO;
+import br.com.lu.model.Produto;
 import br.com.lu.service.WishlistService;
 import br.com.lu.validation.WishlistValidationException;
 
@@ -29,6 +30,16 @@ public class WishlistController {
 	public List<WishlistDTO> getAllWishlists() {
 		return wishlistService.findAll();
 	}
+	
+	@GetMapping("/clientes/{id}")
+	public List<Produto> findAllProdutosByClienteId(@PathVariable String id) {
+		return wishlistService.findAllProdutosByClienteId(id);
+	}
+	
+	@GetMapping("/clientes/{clienteId}/produtos/{produtoId}")
+	public ResponseEntity<String>  findProdutoByClienteId(@PathVariable String clienteId, @PathVariable String produtoId) {
+		return ResponseEntity.ok(wishlistService.findProdutoByClienteId(clienteId, produtoId));
+	}
 
 	@PostMapping
 	public ResponseEntity<String> createWishlist(@RequestBody PostWishlistDTO postWishlistDTO) {
@@ -40,10 +51,10 @@ public class WishlistController {
 		}
 	}
 
-	@DeleteMapping("/{wishlistId}/produto/{produtoId}")
-	public ResponseEntity<String> deleteWishlist(@PathVariable String wishlistId, @PathVariable String produtoId) {
+	@DeleteMapping("/clientes/{clienteId}/produtos/{produtoId}")
+	public ResponseEntity<String> deleteWishlist(@PathVariable String clienteId, @PathVariable String produtoId) {
 		try {
-			wishlistService.removeProduto(wishlistId, produtoId);
+			wishlistService.removeProduto(clienteId, produtoId);
 			return ResponseEntity.ok("Produto removido da Wishlist com Sucesso");
 		} catch (WishlistValidationException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

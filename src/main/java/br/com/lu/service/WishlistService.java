@@ -36,11 +36,44 @@ public class WishlistService {
 	public Optional<Wishlist> findById(String id) {
 		return wishlistRepository.findById(id);
 	}
+	
+	public List<Produto> findAllProdutosByClienteId(String id) {
+	    return wishlistRepository.findByClienteId(id)
+	        .stream()
+	        .flatMap(wishlist -> wishlist.getProdutos().stream())
+	        .toList();
+	}
 
 	public List<WishlistDTO> findAll() {
 		return wishlistRepository.findAll().stream().map(this::toWishlistDTO).toList();
 	}
+	
+	public String findProdutoByClienteId(String clienteId, String produtoId) {
+	    Wishlist wishlist = wishlistRepository.findByClienteId(clienteId)
+	            .orElseThrow(() -> new WishlistValidationException("Registro não encontrado"));
 
+	    Produto produto = produtoRepository.findById(produtoId)
+	            .orElseThrow(() -> new WishlistValidationException("Produto não encontrado"));
+
+	    List<Produto> produtos = wishlist.getProdutos();
+
+	    return produtos.contains(produto) ? "Produto encontrado na wishlist informada" : "Produto não encontrado na wishlist informada!";
+	}
+	
+	public void removeProdutoByWishlistId(String clienteId, String produtoId) {
+		Wishlist wishlist = wishlistRepository.findById(clienteId).orElse(null);
+
+		if (wishlist != null) {
+			List<Produto> produtos = wishlist.getProdutos();
+			produtos.removeIf(produto -> produto.getId().equals(produtoId));
+
+			wishlistRepository.save(wishlist);
+		} else {
+			throw new WishlistValidationException("Registro não encontrado");
+		}
+	}
+	
+	
 	public Wishlist createOrUpdate(PostWishlistDTO postWishlistDTO) {
 		return this.wishlistRepository.save(this.toWishlist(beforeSave(postWishlistDTO)));
 	}
@@ -89,8 +122,8 @@ public class WishlistService {
 		return wishlistDTO;
 	}
 
-	public void removeProduto(String wishlistId, String produtoId) {
-		Wishlist wishlist = wishlistRepository.findById(wishlistId).orElse(null);
+	public void removeProduto(String clienteId, String produtoId) {
+		Wishlist wishlist = wishlistRepository.findByClienteId(clienteId).orElse(null);
 
 		if (wishlist != null) {
 			List<Produto> produtos = wishlist.getProdutos();
