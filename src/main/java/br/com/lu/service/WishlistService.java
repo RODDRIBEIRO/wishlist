@@ -72,7 +72,7 @@ public class WishlistService {
 			}
 
 			// validação verifica tamanho da lista se maior que 20 dispara exceção
-			if (wishlistDTO.getProdutos().size() < 20) {
+			if (wishlistDTO.getProdutos().size() <= 20) {
 				produtoDTOs.addAll(wishlistDTO.getProdutos());
 				produtoDTOs.add(postWishlistDTO.getProduto());
 				wishlistDTO.setProdutos(produtoDTOs);
