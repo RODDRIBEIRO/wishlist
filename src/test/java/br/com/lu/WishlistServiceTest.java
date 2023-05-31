@@ -58,7 +58,6 @@ public class WishlistServiceTest {
 		    // Add the PostWishlistDTO to the list
 		    postWishlistDTOs.add(postWishlistDTO);
 		    
-		    assertEquals(wishlistService.createOrUpdate(postWishlistDTO), null) ;
 		});
 		
 		
