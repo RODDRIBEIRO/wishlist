@@ -48,7 +48,7 @@ public class WishlistService {
 		return wishlistRepository.findAll().stream().map(this::toWishlistDTO).toList();
 	}
 	
-	public String findProdutoByClienteId(String clienteId, String produtoId) {
+	public String existsProdutoInsideWishlistByClienteIdAndProdutoId(String clienteId, String produtoId) {
 	    Wishlist wishlist = wishlistRepository.findByClienteId(clienteId)
 	            .orElseThrow(() -> new WishlistValidationException("Registro não encontrado"));
 

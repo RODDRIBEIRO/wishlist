@@ -37,8 +37,8 @@ public class WishlistController {
 	}
 	
 	@GetMapping("/clientes/{clienteId}/produtos/{produtoId}")
-	public ResponseEntity<String>  findProdutoByClienteId(@PathVariable String clienteId, @PathVariable String produtoId) {
-		return ResponseEntity.ok(wishlistService.findProdutoByClienteId(clienteId, produtoId));
+	public ResponseEntity<String>  existsProdutoInsideWishlistByClienteIdAndProdutoId(@PathVariable String clienteId, @PathVariable String produtoId) {
+		return ResponseEntity.ok(wishlistService.existsProdutoInsideWishlistByClienteIdAndProdutoId(clienteId, produtoId));
 	}
 
 	@PostMapping

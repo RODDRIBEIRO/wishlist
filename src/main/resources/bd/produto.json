@@ -1,0 +1,102 @@
+[
+  {
+    "gtin": "111111",
+    "nome": "Produto 1"
+  },
+  {
+    "gtin": "222222",
+    "nome": "Produto 2"
+  },
+  {
+    "gtin": "333333",
+    "nome": "Produto 3"
+  },
+  {
+    "gtin": "444444",
+    "nome": "Produto 4"
+  },
+  {
+    "gtin": "555555",
+    "nome": "Produto 5"
+  },
+  {
+    "gtin": "666666",
+    "nome": "Produto 6"
+  },
+  {
+    "gtin": "777777",
+    "nome": "Produto 7"
+  },
+  {
+    "gtin": "888888",
+    "nome": "Produto 8"
+  },
+  {
+    "gtin": "999999",
+    "nome": "Produto 9"
+  },
+  {
+    "gtin": "101010",
+    "nome": "Produto 10"
+  },
+  {
+    "gtin": "111213",
+    "nome": "Produto 11"
+  },
+  {
+    "gtin": "141516",
+    "nome": "Produto 12"
+  },
+  {
+    "gtin": "171819",
+    "nome": "Produto 13"
+  },
+  {
+    "gtin": "202122",
+    "nome": "Produto 14"
+  },
+  {
+    "gtin": "232425",
+    "nome": "Produto 15"
+  },
+  {
+    "gtin": "262728",
+    "nome": "Produto 16"
+  },
+  {
+    "gtin": "293031",
+    "nome": "Produto 17"
+  },
+  {
+    "gtin": "323334",
+    "nome": "Produto 18"
+  },
+  {
+    "gtin": "353637",
+    "nome": "Produto 19"
+  },
+  {
+    "gtin": "383940",
+    "nome": "Produto 20"
+  },
+  {
+    "gtin": "414243",
+    "nome": "Produto 21"
+  },
+  {
+    "gtin": "444546",
+    "nome": "Produto 22"
+  },
+  {
+    "gtin": "474849",
+    "nome": "Produto 23"
+  },
+  {
+    "gtin": "505152",
+    "nome": "Produto 24"
+  },
+  {
+    "gtin": "535455",
+    "nome": "Produto 25"
+  }
+]
